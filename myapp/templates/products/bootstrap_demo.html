@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Students Directory{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2 class="fw-bold text-primary">Student Directory</h2>
+        <p class="text-muted">Total Enrolled: {{ students|length }} Students</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+        <a href="#" class="btn btn-success">+ Add New Student</a>
+    </div>
+</div>
+
+<!-- Responsive Grid: 1 col on Mobile, 2 on Tablet, 3 on Desktop -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for student in students %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <img src="{% if student.image %}{{ student.image.url }}{% else %}{% static 'images/default_avatar.png' %}{% endif %}" 
+                 class="card-img-top" alt="{{ student.name }}" style="height: 200px; object-fit: cover;">
+            
+            <div class="card-body">
+                <h5 class="card-title text-dark font-semibold">{{ student.name }}</h5>
+                <p class="card-text text-secondary mb-1">
+                    <strong>Course:</strong> {{ student.course_name }}
+                </p>
+                <p class="card-text">
+                    <strong>Status:</strong> 
+                    {% if student.is_active %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inactive</span>
+                    {% endif %}
+                </p>
+            </div>
+            
+            <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center">
+                <small class="text-muted">Joined: {{ student.joined_date|date:"M Y" }}</small>
+                <a href="#" class="btn btn-outline-primary btn-sm">View Profile</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <p class="fs-5 text-muted">No student records found.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

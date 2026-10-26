@@ -1,0 +1,20 @@
+{% extends 'includes/sidebar.html' %}
+{% load static %}
+{% block content %}
+ 
+    <h2>Create Nw User </h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" style="width:400px">
+        <div class="container">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create User</button>
+        </div>
+    </form>
+{% endblock %}

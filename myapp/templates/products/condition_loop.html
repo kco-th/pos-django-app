@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Conditions & Loops</title>
+</head>
+<body>
+    <h2>2. Product Inventory (For Loop + Conditions)</h2>
+    <ul>
+        {% for product in products %}
+            <li>
+                <!-- forloop.counter   (1, 2, 3...) -->
+                <strong>#{{ forloop.counter }} {{ product.name }}</strong> - {{ product.price }} MMK
+                <!-- check Stock  -->
+                {% if product.in_stock %}
+                    <span style="color: green;">[In Stock]</span>
+                {% else %}
+                    <span style="color: red;">[Out of Stock]</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

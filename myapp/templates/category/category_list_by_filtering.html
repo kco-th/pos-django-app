@@ -1,0 +1,82 @@
+<h2>Category List</h2>
+
+<p>
+  <a href="{% url 'myapp:category_create' %}">+ Create New Category</a>
+</p>
+
+<!-- Filter, Search and Order Form -->
+<form method="GET" action="{% url 'myapp:category_list_filtering' %}">
+  
+  <!-- 1. Search Box -->
+  <label for="search">Search:</label>
+  <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Search by name or desc...">
+
+  &nbsp;
+
+  <!-- 2. Status Filter -->
+  <label for="status">Status:</label>
+  <select id="status" name="status">
+    <option value="">All Status</option>
+    <option value="active" {% if status_filter == 'active' %}selected{% endif %}>Active Only</option>
+    <option value="inactive" {% if status_filter == 'inactive' %}selected{% endif %}>Inactive Only</option>
+  </select>
+
+  &nbsp;
+
+  <!-- 3. Ordering Filter -->
+  <label for="ordering">Sort By:</label>
+  <select id="ordering" name="ordering">
+    <option value="name" {% if ordering == 'name' %}selected{% endif %}>Name (A to Z)</option>
+    <option value="-name" {% if ordering == '-name' %}selected{% endif %}>Name (Z to A)</option>
+    <option value="id" {% if ordering == 'id' %}selected{% endif %}>ID (Oldest First)</option>
+    <option value="-id" {% if ordering == '-id' %}selected{% endif %}>ID (Newest First)</option>
+  </select>
+
+  &nbsp;
+
+  <button type="submit">Apply</button>
+  <a href="{% url 'myapp:category_list_filtering' %}">
+    <button type="button">Reset</button>
+  </a>
+</form>
+
+<br>
+
+<!-- Results Table -->
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for category in categories %}
+    <tr>
+      <td>{{ category.id }}</td>
+      <td>
+        <a href="{% url 'myapp:category_detail' category.pk %}">{{ category.name }}</a>
+      </td>
+      <td>{{ category.description|default:"-" }}</td>
+      <td>
+        {% if category.is_active %}
+          Active
+        {% else %}
+          Inactive
+        {% endif %}
+      </td>
+      <td>
+        <a href="{% url 'myapp:category_update' category.pk %}">Edit</a> |
+        <a href="{% url 'myapp:category_delete' category.pk %}">Delete</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">No categories found matching your criteria.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

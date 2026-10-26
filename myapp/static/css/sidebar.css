@@ -1,0 +1,71 @@
+/* Sidebar basic colour and size */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: #0b0f19;
+    font-family: 'Inter', sans-serif;
+    user-select: none;
+}
+
+/* TP Logo design colour Glow Effect */
+.brand-logo {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #1d6bf3, #0b5ed7);
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(29, 107, 243, 0.6);
+}
+
+/*  (MAIN, MASTER DATA, etc.) */
+.menu-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #5a6a85;
+    letter-spacing: 0.8px;
+    margin: 12px 0 8px 12px;
+}
+
+/* Menu Link normal */
+.sidebar .nav-link {
+    color: #8c9bae;
+    padding: 10px 16px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar .nav-link:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* selected (Active) Menu design */
+.sidebar .nav-link.active {
+    background: linear-gradient(90deg, #0d6efd, #2b7fff);
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.5);
+}
+
+/* Footer */
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Custom Scrollbar design*/
+/* Scrollbar width */
+/*  :: => reference css style(Pseudo element) */
+.sidebar-menu::-webkit-scrollbar {
+    width: 6px;
+}
+/* Scrollbar background */
+.sidebar-menu::-webkit-scrollbar-track {
+    background: #111622;
+}
+/* Mouse on Thumb (Hover State) */
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: #6c757d;
+    border-radius: 3px;
+}

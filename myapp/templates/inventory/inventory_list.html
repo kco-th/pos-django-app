@@ -1,0 +1,76 @@
+{% extends 'includes/sidebar.html' %}
+{% load static %}
+{% block content %}
+<div style="font-family: system-ui, -apple-system, sans-serif; max-width: 1100px; margin: 0 auto; padding: 1.5rem;">
+  
+  <!-- Header & Status Message -->
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+    <h2 style="margin: 0; font-size: 1.5rem; color: #111827;">Inventory Management</h2>
+    <span style="font-size: 0.875rem; color: #6b7280;">Total Items <strong>{{ products.count }}</strong> </span>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div style="padding: 0.75rem 1rem; background-color: #ecfdf5; border-left: 4px solid #10b981; color: #065f46; margin-bottom: 1rem; font-size: 0.9rem;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Products Table -->
+  <div style="overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 6px;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+      <thead>
+        <tr style="background-color: #f9fafb; border-bottom: 1px solid #e5e7eb; color: #4b5563;">
+          <th style="padding: 0.8rem 1rem;">Code</th>
+          <th style="padding: 0.8rem 1rem;">Item name</th>
+          <th style="padding: 0.8rem 1rem;">Category</th>
+          <th style="padding: 0.8rem 1rem; text-align: right;">Unit Price</th>
+          <th style="padding: 0.8rem 1rem; text-align: center;">Balance Stock</th>
+          <th style="padding: 0.8rem 1rem; text-align: center;">Reorder Stock </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+          <tr style="border-bottom: 1px solid #f3f4f6;">
+            <td style="padding: 0.8rem 1rem; font-family: monospace; font-weight: 600; color: #374151;">{{ product.id }}</td>
+            <td style="padding: 0.8rem 1rem; font-weight: 500; color: #111827;">{{ product.name }}</td>
+            <td style="padding: 0.8rem 1rem; color: #6b7280;">{{ product.category.name|default:"-" }}</td>
+            <td style="padding: 0.8rem 1rem; text-align: right;">{{ product.price }} Ks</td>
+            
+            <!-- Stock Balance Column (Low stock highlight) -->
+            <td style="padding: 0.8rem 1rem; text-align: center;">
+              {% if product.is_low_stock %}
+                <span style="background-color: #fee2e2; color: #991b1b; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 600; font-size: 0.8rem;">
+                  {{ product.stock }} (Low)
+                </span>
+              {% else %}
+                <span style="font-weight: 600; color: #047857;">{{ product.stock }}</span>
+              {% endif %}
+            </td>
+
+            <!-- Quick Restock Action Form -->
+            <td style="padding: 0.8rem 1rem; text-align: center;">
+              <form action="{% url 'myapp:update_stock' product.id %}" method="POST" style="display: inline-flex; gap: 0.4rem; justify-content: center;">
+                {% csrf_token %}
+                <input 
+                  type="number" 
+                  name="quantity" 
+                  value="5" 
+                  min="1" 
+                  style="width: 55px; padding: 0.3rem 0.4rem; border: 1px solid #d1d5db; border-radius: 4px; text-align: center; font-size: 0.85rem;"
+                >
+                <button type="submit" style="padding: 0.3rem 0.7rem; background-color: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 500;">
+                  + Add
+                </button>
+              </form>
+            </td>
+          </tr>
+        
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Django Filters Example</title>
+</head>
+
+<body>
+
+    <!-- 1. upper & lower filters -->
+    <h2>1. String Formatting</h2>
+    <p><strong>Upper:</strong> {{ user_name|upper }}</p>
+    <!-- Result: MG MG -->
+    <!-- 2. default filter -->
+    <h2>2. Default Value</h2>
+    <p><strong>User Bio:</strong> {{ bio|default:"No information has been provided yet." }}</p>
+    <!-- Since bio is empty, the default text will appear -->
+
+    <!-- 3. length filter -->
+    <h2>3. List Length</h2>
+    <p><strong>Total Products Count:</strong> {{ products|length }}</p>
+    <!-- Result: 3 -->
+
+    <!-- 4. date filter -->
+    <h2>4. Date Formatting</h2>
+    <p><strong>Standard Date:</strong> {{ today|date:"d-M-Y (h:i A)" }}</p>
+    <!-- Result: 22 Sep 2026 -->
+
+</body>
+
+</html>

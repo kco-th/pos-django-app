@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - POS System</title>
+</head>
+<body style="font-family: system-ui, -apple-system, sans-serif; background-color: #f3f4f6; margin: 0; padding: 0;">
+
+  <div style="max-width: 360px; margin: 5rem auto; padding: 2rem; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+    
+    <h2 style="margin-top: 0; color: #111827; text-align: center; margin-bottom: 1.5rem; font-size: 1.4rem;">
+        (Login)
+    </h2>
+
+    <!-- Alert / Error Messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div style="padding: 0.7rem; background-color: #fee2e2; border-left: 4px solid #ef4444; color: #991b1b; font-size: 0.85rem; margin-bottom: 1.2rem;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- To ensure the path taken is not lost, next input -->
+      {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+      {% endif %}
+
+      <div style="margin-bottom: 1.2rem;">
+        <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.4rem; color: #374151;">
+          Username
+        </label>
+        <input 
+          type="text" 
+          name="username" 
+          required 
+          autofocus 
+          autocomplete="off" 
+          style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.75rem; border: 1px solid #d1d5db; border-radius: 4px; font-size: 0.95rem; outline: none;"
+        >
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.4rem; color: #374151;">
+          Password
+        </label>
+        <input 
+          type="password" 
+          name="password" 
+          required 
+          style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.75rem; border: 1px solid #d1d5db; border-radius: 4px; font-size: 0.95rem; outline: none;"
+        >
+      </div>
+
+      <button 
+        type="submit" 
+        style="width: 100%; padding: 0.7rem; background-color: #1f2937; color: #ffffff; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.95rem;"
+      >
+        Login  
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #6b7280;">
+      Already have't account <a href="{% url 'myapp:create_user' %}" style="color: #2563eb; text-decoration: none; font-weight: 500;">Register </a>
+    </div>
+
+  </div>
+
+</body>
+</html>

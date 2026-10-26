@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Custom CSS Load -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1> Image Load and Card Style Example</h1>
+    <img src="{% static 'images/flower.jpg' %}" alt="image Logo" class="img-fluid">
+    <div class="product-list">
+        Product: Keyboard <br>
+        Price:100000 MMK
+    </div>
+    <!-- JS File Load 
+    <script src="{% static 'js/main.js' %}"></script> -->
+</body>
+</html>

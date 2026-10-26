@@ -1,0 +1,15 @@
+{% extends 'includes/sidebar.html' %}
+{% load static %}
+{% block content %}
+<h2>{% if category %}Edit Category{% else %}Add Category{% endif %}</h2>
+
+<form method="POST">
+  <!-- {% csrf_token %} Protect against Cross-Site Request Forgery (CSRF) attacks-->
+  {% csrf_token %}
+  <!--{{ form.as_p }}: Input fields (eg name, description) in CategoryForm 
+   are automatically wrapped with <p> (Paragraph) tags to generate HTML.-->
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+  <a href="{% url 'myapp:category_list' %}">Cancel</a>
+</form>
+{% endblock %}

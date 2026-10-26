@@ -1,0 +1,129 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tech Pro POS</title>
+    <!-- Bootstrap 5 & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Custom Sidebar CSS -->
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="d-flex">
+    <!-- left Sidebar  -->
+    <aside class="sidebar d-flex flex-column justify-content-between">
+        <div class="sidebar-top d-flex flex-column overflow-hidden">
+            <!-- Brand Header -->
+            <div class="d-flex align-items-center p-3 mb-2">
+                <div class="brand-logo d-flex align-items-center justify-content-center me-3">
+                    <span class="fw-bold text-white fs-5">TP</span>
+                </div>
+                <div>
+                    <h6 class="mb-0 text-white fw-bold">Tech Pro</h6>
+                    <small class="text-secondary" style="font-size: 0.75rem;">POS System</small>
+                </div>
+            </div>
+
+            <!-- Menu Links -->
+            <div class="sidebar-menu px-3 overflow-y-auto">
+                <div class="menu-label">MAIN</div>
+                <ul class="nav flex-column mb-3">
+                    <li class="nav-item">
+                        <a href="{% url 'myapp:dashview_view' %}" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'dashview_view' %}active{% endif %}">
+                            <i class="bi bi-house-door me-3 fs-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="menu-label">MASTER DATA</div>
+                <ul class="nav flex-column mb-3">
+                    <li class="nav-item">
+                        <a href="{% url 'myapp:category_list' %}" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'categories' %}active{% endif %}">
+                            <i class="bi bi-tag me-3 fs-5"></i>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'units' %}active{% endif %}">
+                            <i class="bi bi-boxes me-3 fs-5"></i>
+                            <span>Units</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'myapp:product_list' %}" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'suppliers' %}active{% endif %}">
+                            <i class="bi bi-truck me-3 fs-5"></i>
+                            <span>Suppliers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'myapp:product_list' %}" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'products' %}active{% endif %}">
+                            <i class="bi bi-box-seam me-3 fs-5"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- Transaction -->
+                 <div class="menu-label">TRANSCTION</div>
+                <ul class="nav flex-column mb-3">
+                    <li class="nav-item">
+                        
+                        <a href="{% url 'myapp:pos_terminal' %}" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'pos' %}active{% endif %}">
+                            <i class="bi bi-tag me-3 fs-5"></i>
+                            <span>Point Of Sale</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'myapp:inventory_list
+                        ' %}" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'units' %}active{% endif %}">
+                            <i class="bi bi-boxes me-3 fs-5"></i>
+                            <span>Inventory</span>
+                        </a>
+                    </li>
+                   
+                </ul>
+                 <!-- Transaction -->
+                 <div class="menu-label">SYSTEM</div>
+                <ul class="nav flex-column mb-3">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'categories' %}active{% endif %}">
+                            <i class="bi bi-tag me-3 fs-5"></i>
+                            <span>Setting</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'myapp:create_user' %}" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'units' %}active{% endif %}">
+                            <i class="bi bi-boxes me-3 fs-5"></i>
+                            <span>User</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'myapp:logout' %}" class="nav-link d-flex align-items-center {% if request.resolver_match.url_name == 'units' %}active{% endif %}">
+                            <i class="bi bi-boxes me-3 fs-5"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar-footer d-flex justify-content-between align-items-center px-3 py-3">
+            <span class="text-light small">Tech Pro POS</span>
+            <span class="text-secondary small">v1.0.0</span>
+        </div>
+    </aside>
+
+    <!-- Right side Main Content  -->
+    <main class="flex-grow-1 p-4" style="height: 100vh; overflow-y: auto; background-color: #f8f9fa;">
+        {% block content %}
+        <!-- Add another HTML file  -->
+        {% endblock %}
+    </main>
+</div>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

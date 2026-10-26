@@ -1,0 +1,132 @@
+{% extends 'includes/sidebar.html' %}
+{% load static %}
+
+{% block title %}Dashboard Overview{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+
+<!-- Page-specific content areas -->
+{% block content %}
+    <!-- Stat Cards Component -->
+    {% include 'includes/_stats_cards.html' %}
+
+    <!-- 1. Chart Section (Full Width) -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold m-0">Sales Analytics Overview</h6>
+                    <span class="badge bg-primary bg-opacity-10 text-primary">Monthly</span>
+                </div>
+                <div style="height: 320px;">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Recent Transactions Table (Dynamic From Sale, SaleItem & Product) -->
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold m-0">Recent Transactions</h6>
+                    <a href="{% url 'myapp:inventory_list' %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">View All</a>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Invoice No.</th>
+                                <th>Date & Time</th>
+                                <th>Items (Product x Qty)</th>
+                                <th>Payment Method</th>
+                                <th>Amount</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in recent_sales %}
+                                <tr>
+                                    <td class="fw-semibold">#INV-{{ sale.id|stringformat:"04d" }}</td>
+                                    <td class="text-muted">{{ sale.created_at|date:"d M Y, h:i A" }}</td>
+                                    <td>
+                                        <!-- SaleItem & Product Data -->
+                                        {% for item in sale.items.all %}
+                                            <span class="badge bg-light text-dark border me-1">
+                                                {{ item.product.name }} * {{ item.quantity }}
+                                            </span>
+                                        {% empty %}
+                                            <span class="text-muted small">No items</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-cash me-1"></i> {{ sale.payment_method|default:"Cash"|title }}
+                                    </td>
+                                    <td class="fw-bold">${{ sale.total_amount|floatformat:2 }}</td>
+                                    <td class="text-end">
+                                        <button type="button" class="btn btn-sm btn-light border" onclick="window.print();" title="Print Invoice">
+                                            <i class="bi bi-printer"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        No Sale data
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js Core Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Chart Script -->
+<script src="{% static 'js/sales_chart.js' %}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        //Retrieving dynamic chart data sent from the backend using a safe filter
+        const months = {{ chart_labels| safe }};
+        const revenues = {{ chart_data| safe }};
+
+        // Render Chart function
+        if (typeof renderSalesChart === "function") {
+            renderSalesChart('salesChart', months, revenues);
+        } else {
+            // If sales_chart.js is missing, run the fallback Chart.js directly.
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Sales Revenue ($)',
+                        data: revenues,
+                        borderColor: '#0d6efd',
+                        backgroundColor: 'rgba(13, 110, 253, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.2,
+                        fill: true,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#0d6efd',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
